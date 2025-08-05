@@ -1,17 +1,18 @@
 from flask import Flask, render_template, request, redirect, url_for
 import mysql.connector
+import os
 
 app = Flask(__name__)
 
 # MySQL Connection
+
 def get_db_connection():
     return mysql.connector.connect(
-        host='localhost',
-        user='root',
-        password='Maharshi@2004',  # 🔁 Replace with your actual MySQL password
-        database='football_challenge'
+        host=os.environ['MYSQL_HOST'],
+        user=os.environ['MYSQL_USER'],
+        password=os.environ['MYSQL_PASSWORD'],
+        database=os.environ['MYSQL_DATABASE']
     )
-
 @app.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
