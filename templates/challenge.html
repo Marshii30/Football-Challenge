@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Challenge Video</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="challenge-body">
+  <div class="challenge-container">
+
+    <h1 class="challenge-heading glow">OPEN CHALLENGE: CAN YOU BEAT MY TIME 🔥</h1>
+
+    <video class="challenge-video" controls autoplay loop>
+      <source src="{{ url_for('static', filename='your_drill_video.mp4') }}" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+
+    <form method="POST" class="response-form">
+      <button name="response" value="YES" class="response-btn">YES</button>
+      <button name="response" value="NO" class="response-btn">NO</button>
+    </form>
+
+  </div>
+</body>
+</html>
