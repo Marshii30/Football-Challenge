@@ -1,100 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Football Challenge Login</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #000;
-            font-family: 'Segoe UI', sans-serif;
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+  <meta charset="UTF-8">
+  <title>Football Challenge</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
 
-        .form-container {
-            background: linear-gradient(145deg, #1a1a1a, #111);
-            border-radius: 15px;
-            box-shadow: 8px 8px 20px #000, -8px -8px 20px #1f1f1f;
-            padding: 40px;
-            width: 350px;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
+    .form-container {
+      background: linear-gradient(145deg, #1c1c1c, #0a0a0a);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 10px 10px 25px #0e0e0e, -10px -10px 25px #1a1a1a;
+      width: 90%;
+      max-width: 400px;
+      transition: transform 0.3s ease;
+    }
 
-        .form-container:hover {
-            transform: scale(1.03);
-            box-shadow: 12px 12px 24px #000, -12px -12px 24px #1f1f1f;
-        }
+    .form-container:hover {
+      transform: scale(1.03);
+    }
 
-        h2 {
-            text-align: center;
-            margin-bottom: 30px;
-            font-weight: bold;
-        }
+    .form-container h2 {
+      text-align: center;
+      color: #fff;
+    }
 
-        label {
-            display: block;
-            margin-top: 15px;
-            font-size: 14px;
-        }
+    .form-container label {
+      color: #ddd;
+    }
 
-        input, select {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            border: none;
-            border-radius: 8px;
-            background: #2a2a2a;
-            color: white;
-        }
+    .form-container input,
+    .form-container select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      border: none;
+      font-size: 14px;
+    }
 
-        button {
-            margin-top: 25px;
-            width: 100%;
-            padding: 10px;
-            background-color: #00c853;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-        }
+    .form-container input[type="submit"] {
+      background: #27ae60;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
 
-        button:hover {
-            background-color: #00e676;
-        }
-    </style>
+    .form-container input[type="submit"]:hover {
+      background: #2ecc71;
+      transform: scale(1.05);
+      box-shadow: 0 0 10px #2ecc71;
+    }
+
+    .logo {
+      font-size: 40px;
+      text-align: center;
+      margin-bottom: 20px;
+      color: #2ecc71;
+    }
+
+    @media (max-width: 480px) {
+      .form-container {
+        padding: 20px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="form-container">
-        <form action="/challenge" method="get">
-            <h2>Football Challenge</h2>
-            <label for="name">Name:</label>
-            <input type="text" name="name" id="name" required>
 
-            <label for="level">Highest level played:</label>
-            <select name="level" id="level" required>
-                <option value="" disabled selected>Select level</option>
-                <option value="College Level">College Level</option>
-                <option value="District Level">District Level</option>
-                <option value="State Level">State Level</option>
-                <option value="National Level">National Level</option>
-            </select>
+  <div class="form-container">
+    <div class="logo">⚽</div>
+    <h2>Football Challenge</h2>
+    <form action="/submit" method="POST" onsubmit="playSound()">
+      <label for="name">Name:</label>
+      <input type="text" name="name" required>
 
-            <label for="dribble_speed">Dribble Drill Time (up to 60s):</label>
-            <select name="dribble_speed" id="dribble_speed" required>
-                <option value="" disabled selected>Select time</option>
-                {% for i in range(1, 61) %}
-                    <option value="{{ i }}s">{{ i }} seconds</option>
-                {% endfor %}
-            </select>
+      <label for="level">Highest Level Played:</label>
+      <select name="level" required>
+        <option value="College Level">College Level</option>
+        <option value="District Level">District Level</option>
+        <option value="State Level">State Level</option>
+        <option value="National Level">National Level</option>
+      </select>
 
-            <button type="submit">Start Challenge</button>
-        </form>
-    </div>
+      <label for="dribble_speed">Dribble Drill Time (sec):</label>
+      <select name="dribble_speed" required>
+        {% for i in range(1, 61) %}
+          <option value="{{ i }}">{{ i }} seconds</option>
+        {% endfor %}
+      </select>
+
+      <input type="submit" value="Submit">
+    </form>
+  </div>
+
+  <audio id="click-sound" src="https://www.soundjay.com/buttons/sounds/button-29.mp3"></audio>
+  <script>
+    function playSound() {
+      document.getElementById('click-sound').play();
+    }
+  </script>
 </body>
 </html>
