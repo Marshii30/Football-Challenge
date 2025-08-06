@@ -1,30 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Challenge</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+  <title>Challenge Video</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body class="animated-bg">
+<body class="challenge-body">
+  <div class="challenge-container">
 
-  <div class="challenge-box">
-    <h1>OPEN CHALLENGE: CAN YOU BEAT ME?🔥</h1>
-    <p>Perform the dribble drill within your best time and upload your performance later!</p>
+    <h1 class="challenge-heading glow">OPEN CHALLENGE: CAN YOU BEAT MY TIME 🔥</h1>
 
-    <form action="/submit" method="POST">
-      <input type="hidden" name="name" value="{{ request.form.name }}">
-      <input type="hidden" name="level" value="{{ request.form.level }}">
-      <input type="hidden" name="dribble_speed" value="{{ request.form.dribble_speed }}">
+    <video class="challenge-video" controls autoplay loop>
+      <source src="{{ url_for('static', filename='your_drill_video.mp4') }}" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
 
-      <label>Do you accept the challenge?</label><br>
-      <input type="radio" name="challenge_response" value="Yes" required> Yes
-      <input type="radio" name="challenge_response" value="No"> No
-
-      <br><br>
-      <button type="submit">Submit Response</button>
+    <form method="POST" class="response-form">
+      <button name="response" value="YES" class="response-btn">YES</button>
+      <button name="response" value="NO" class="response-btn">NO</button>
     </form>
-  </div>
 
+  </div>
 </body>
 </html>
