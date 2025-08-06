@@ -62,7 +62,6 @@ def thankyou():
     return render_template('thankyou.html')
 
 
-
 @app.route('/responses')
 def responses():
     conn = get_db_connection()
