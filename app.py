@@ -1,61 +1,67 @@
 from flask import Flask, render_template, request, redirect, url_for
 import mysql.connector
-import os
 
 app = Flask(__name__)
 
-# MySQL Connection
-
+# Database connection
 def get_db_connection():
     return mysql.connector.connect(
-        host=os.environ['MYSQL_HOST'],
-        user=os.environ['MYSQL_USER'],
-        password=os.environ['MYSQL_PASSWORD'],
-        database=os.environ['MYSQL_DATABASE']
+        host='sql12.freesqldatabase.com',
+        user='sql12793821',
+        password='1UE6ipdYba',
+        database='sql12793821',
+        port=3306
     )
-@app.route('/', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        name = request.form['name']
-        level = request.form['level']
-        dribble_time = request.form['dribble_time']
 
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        cursor.execute(
-            "INSERT INTO users (name, level, dribble_time) VALUES (%s, %s, %s)",
-            (name, level, dribble_time)
+# Home page with form
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+# Handle form submission
+@app.route('/submit', methods=['POST'])
+def submit():
+    name = request.form['name']
+    level = request.form['level']
+    dribble_speed = request.form['dribble_speed']
+    challenge_response = request.form['challenge_response']
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    # Create table if it doesn't exist
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS users (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(100),
+            level VARCHAR(100),
+            dribble_speed VARCHAR(100),
+            challenge_response VARCHAR(10)
         )
-        user_id = cursor.lastrowid
-        conn.commit()
-        cursor.close()
-        conn.close()
+    ''')
 
-        return redirect(url_for('challenge', user_id=user_id))
+    # Insert data
+    cursor.execute('''
+        INSERT INTO users (name, level, dribble_speed, challenge_response)
+        VALUES (%s, %s, %s, %s)
+    ''', (name, level, dribble_speed, challenge_response))
 
-    return render_template('login.html')
+    conn.commit()
+    cursor.close()
+    conn.close()
 
-@app.route('/challenge/<int:user_id>', methods=['GET', 'POST'])
-def challenge(user_id):
-    if request.method == 'POST':
-        response = request.form['response']
+    return render_template('thankyou.html')
 
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        cursor.execute(
-            "UPDATE users SET response = %s WHERE id = %s",
-            (response, user_id)
-        )
-        conn.commit()
-        cursor.close()
-        conn.close()
-
-        return (
-            "<h2 style='text-align:center;'>Thanks for responding! 🔥</h2>"
-            "<h3 style='text-align:center;'>Meet You Tomorrow Eve 5:00pm @Rymec Ground</h3>"
-        )
-
-    return render_template('challenge.html', user_id=user_id)
+# Show all responses (for admin/testing)
+@app.route('/responses')
+def responses():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM users")
+    data = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return render_template('responses.html', responses=data)
 
 if __name__ == '__main__':
     app.run(debug=True)
