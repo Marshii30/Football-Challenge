@@ -2,19 +2,33 @@
 <html>
 <head>
   <title>Football Challenge</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
-  <h2>Football Challenge Form</h2>
-  <form action="/submit" method="POST">
-    Name: <input type="text" name="name"><br>
-    Highest Level Played: <input type="text" name="level"><br>
-    Dribble Drill Speed: <input type="text" name="dribble_speed"><br>
-    Accept Challenge? 
-    <select name="challenge_response">
-      <option value="Yes">Yes</option>
-      <option value="No">No</option>
-    </select><br>
-    <input type="submit" value="Submit">
-  </form>
+<body class="login-body">
+  <div class="login-box">
+    <h2>Football Challenge Form</h2>
+    <form action="/submit" method="POST">
+      <div class="input-group">
+        <label>Name</label>
+        <input type="text" name="name" placeholder="Your name" required>
+      </div>
+      <div class="input-group">
+        <label>Highest Level Played</label>
+        <input type="text" name="level" placeholder="e.g. Amateur, Pro" required>
+      </div>
+      <div class="input-group">
+        <label>Dribble Drill Speed</label>
+        <input type="text" name="dribble_speed" placeholder="e.g. 10.5 sec" required>
+      </div>
+      <div class="input-group">
+        <label>Accept Challenge?</label>
+        <select name="challenge_response" required>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+  </div>
 </body>
 </html>
