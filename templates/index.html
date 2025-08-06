@@ -2,33 +2,55 @@
 <html>
 <head>
   <title>Football Challenge</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 40px;
+      background-color: #f2f2f2;
+    }
+    form {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      width: 300px;
+      margin: auto;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin: 10px 0;
+    }
+    input[type="submit"] {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
 </head>
-<body class="login-body">
-  <div class="login-box">
-    <h2>Football Challenge Form</h2>
-    <form action="/submit" method="POST">
-      <div class="input-group">
-        <label>Name</label>
-        <input type="text" name="name" placeholder="Your name" required>
-      </div>
-      <div class="input-group">
-        <label>Highest Level Played</label>
-        <input type="text" name="level" placeholder="e.g. Amateur, Pro" required>
-      </div>
-      <div class="input-group">
-        <label>Dribble Drill Speed</label>
-        <input type="text" name="dribble_speed" placeholder="e.g. 10.5 sec" required>
-      </div>
-      <div class="input-group">
-        <label>Accept Challenge?</label>
-        <select name="challenge_response" required>
-          <option value="Yes">Yes</option>
-          <option value="No">No</option>
-        </select>
-      </div>
-      <button type="submit">Submit</button>
-    </form>
-  </div>
+<body>
+  <h2 style="text-align: center;">Football Challenge</h2>
+  <form action="/submit" method="POST">
+    Name: <input type="text" name="name" required><br>
+
+    Highest Level Played:
+    <select name="level" required>
+      <option value="">--Select--</option>
+      <option value="College Level">College Level</option>
+      <option value="District Level">District Level</option>
+      <option value="State Level">State Level</option>
+      <option value="National Level">National Level</option>
+    </select><br>
+
+    Dribble Drill Speed (in seconds):
+    <select name="dribble_speed" required>
+      <option value="">--Select--</option>
+      {% for sec in range(10, 61) %}
+        <option value="{{ sec }}">{{ sec }} sec</option>
+      {% endfor %}
+    </select><br>
+
+    <input type="submit" value="Submit">
+  </form>
 </body>
 </html>
