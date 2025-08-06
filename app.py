@@ -57,6 +57,12 @@ def submit():
 def challenge():
     return render_template('challenge.html')
 
+@app.route('/thankyou')
+def thankyou():
+    return render_template('thankyou.html')
+
+
+
 @app.route('/responses')
 def responses():
     conn = get_db_connection()
